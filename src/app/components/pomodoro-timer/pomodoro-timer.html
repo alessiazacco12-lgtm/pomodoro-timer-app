@@ -1,0 +1,70 @@
+<main class="pomodoro-container">
+  <h1>🍅Pomodoro Timer🍅</h1>
+
+  <!-- SESSIONE CORRENTE -->
+  <section class="timer-section">
+    <h2>{{ sessionLabel() }}</h2>
+
+    <!-- TEMPO RIMANENTE -->
+    <p class="timer">{{ formattedTime() }}</p>
+
+    <!-- CONTROLLI DEL TIMER -->
+    <div class="timer-controls">
+      @if (isRunning()) {
+        <button type="button" (click)="stopTimer()">Stop</button>
+      } @else {
+        <button type="button" (click)="startTimer()">Start/Resume</button>
+      }
+    </div>
+  </section>
+
+  <!-- SETTINGS -->
+  <section class="settings-section">
+    <h2>Settings</h2>
+
+    <form class="settings" [formGroup]="settingsForm" (ngSubmit)="applySettings()">
+      <!-- WORK -->
+      <div class="setting">
+        <label for="work-minutes">Work</label>
+
+        <input id="work-minutes" type="number" min="1" step="1" formControlName="workMinutes" />
+      </div>
+
+      <!-- SHORT BREAK -->
+      <div class="setting">
+        <label for="short-break-minutes">Short Break</label>
+
+        <input
+          id="short-break-minutes"
+          type="number"
+          min="1"
+          step="1"
+          formControlName="shortBreakMinutes"
+        />
+      </div>
+
+      <!-- LONG BREAK -->
+      <div class="setting">
+        <label for="long-break-minutes">Long Break</label>
+
+        <input
+          id="long-break-minutes"
+          type="number"
+          min="1"
+          step="1"
+          formControlName="longBreakMinutes"
+        />
+      </div>
+
+      <!-- APPLICO LE NUOVE IMPOSTAZIONI -->
+      <button type="submit" [disabled]="isRunning() || settingsForm.invalid">Apply settings</button>
+    </form>
+  </section>
+
+  <!-- COMPLETED WORK SESSIONS -->
+  <section class="sessions-section">
+    <h2>Completed Work Sessions</h2>
+
+    <p>{{ completedWorkSessions() }}</p>
+  </section>
+</main>
